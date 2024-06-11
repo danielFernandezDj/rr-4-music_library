@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { DataContext } from './context/DataContext'
 import { SearchContext } from './context/SearchContext'
 
@@ -6,16 +6,16 @@ import Gallery from './components/Gallery'
 import SearchBar from './components/SearchBar'
 
 function App() {
-  const [search, setSearch] = useState('')
   const [message, setMessage] = useState('Search for Music!')
   const [data, setData] = useState([])
   const searchInput = useRef('')
 
-  useEffect(() => {
+  const handleSearch = (e, term) => {
+    e.preventDefault()
     const fetchData = async () => {
       try {
-        document.title = `${search} Music`
-        const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(search)}`)
+        document.title = `${term} Music`
+        const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}`)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -30,14 +30,9 @@ function App() {
         setMessage('Failed to fetch data')
       }
     }
-    if (search) {
+    if (term) {
       fetchData()
     }
-  }, [search])
-
-  const handleSearch = (e, term) => {
-    e.preventDefault()
-    setSearch(term)
   }
 
   return (
