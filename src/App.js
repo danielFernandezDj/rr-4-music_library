@@ -41,7 +41,6 @@ function App() {
     setSearch(term)
   }
 
-  // ! Error with the Canvas Images!
   return (
     <div style={{ 'display': 'flex', 'flexFlow': 'column', 'justifyContent': 'center', 'alignItems': 'center' }}>
       {message}
