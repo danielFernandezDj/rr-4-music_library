@@ -23,7 +23,6 @@ function ArtistView() {
                 <Link to={`/album/${album.collectionId}`}>
                     <p>{album.collectionName}</p>
                 </Link>
-                <p>{album.collectionName}</p>
             </div>
         );
     });
@@ -41,4 +40,3 @@ export default ArtistView;
 
 // ! For my friend David!
 // The problem is the syntax that hey give to us is wrong.
-
