@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 function ArtistView() {
     const { id } = useParams();
     const [artistData, setArtistData] = useState([]);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const API_URL = `http://localhost:4000/album/${id}`;
@@ -27,10 +29,26 @@ function ArtistView() {
         );
     });
 
+    // Menu
+    const navButtons = () => {
+        return (
+            <div>
+                <button onClick={() => navigate(-1)}>
+                    Back
+                </button>
+                <br />
+                <button onClick={() => navigate('/')}>
+                    Home
+                </button>
+            </div>
+        )
+    }
+
     return (
         <div>
             <h2>The id passed was: {id}</h2>
             <p>Artist Data Goes Here!</p>
+            {navButtons()}
             {renderAlbums}
         </div>
     );
