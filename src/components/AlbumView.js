@@ -51,6 +51,3 @@ function AlbumView() {
 }
 
 export default AlbumView;
-
-// ! For my friend David!
-// The problem is the syntax that hey give to us is wrong.

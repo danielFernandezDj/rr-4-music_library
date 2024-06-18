@@ -48,6 +48,10 @@ function ArtistView() {
         <div>
             <h2>The id passed was: {id}</h2>
             <p>Artist Data Goes Here!</p>
+            {artistData.length > 0 ?
+                <h2> {artistData[0].artistName} </h2> :
+                <h2>Loading...</h2>
+            }
             {navButtons()}
             {renderAlbums}
         </div>
@@ -55,6 +59,3 @@ function ArtistView() {
 }
 
 export default ArtistView;
-
-// ! For my friend David!
-// The problem is the syntax that hey give to us is wrong.
