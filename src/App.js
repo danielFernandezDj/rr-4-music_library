@@ -1,50 +1,41 @@
-import { useEffect, useState } from 'react'
-import Gallery from './Gallery'
-import SearchBar from './components/SearchBar'
-import { createResource as fetchData } from './helper'
+import { useEffect, useState, Suspense } from 'react';
+import Gallery from './components/Gallery';
+import SearchBar from './components/SearchBar';
+import { createResource } from './helper';
 
-
-function App() {
-  const [search, setSearch] = useState('')
-  const [message, setMessage] = useState('Search for Music!')
-  const [data, setData] = useState([])
+export default function App() {
+  const [search, setSearch] = useState('');
+  const [message, setMessage] = useState('Search for Music!');
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    if (search) {
+      setMessage('Loading...');
       try {
-        document.title = `${search} Music`
-        const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(search)}`)
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const resData = await response.json()
-        if (resData.results.length > 0) {
-          setData(resData.results)
-        } else {
-          setMessage('Not Found')
-        }
+        const resource = createResource(search);
+        setData(resource);
+        setMessage(''); // Clear the message when data is successfully fetched
       } catch (error) {
+        setMessage('Failed to fetch data');
         console.error("Fetch error: ", error);
-        setMessage('Failed to fetch data')
       }
     }
-    if (search) {
-      fetchData()
-    }
-  }, [search])
+  }, [search]);
 
   const handleSearch = (e, term) => {
-    e.preventDefault()
-    setSearch(term)
-  }
+    e.preventDefault();
+    setSearch(term);
+  };
 
   return (
-    <div style={{ 'display': 'flex', 'flexFlow': 'column', 'justifyContent': 'center', 'alignItems': 'center' }}>
+    <div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <SearchBar handleSearch={handleSearch} />
-      {message}
-      <Gallery data={data} />
+      {message && <div>{message}</div>}
+      {data && (
+        <Suspense fallback={<h1>Loading...</h1>}>
+          <Gallery data={data} />
+        </Suspense>
+      )}
     </div>
-  )
+  );
 }
-
-export default App;
