@@ -1,6 +1,7 @@
 import { useEffect, useState, Suspense } from 'react';
 import Gallery from './components/Gallery';
 import SearchBar from './components/SearchBar';
+
 import { createResource } from './helper';
 
 export default function App() {
@@ -14,7 +15,7 @@ export default function App() {
       try {
         const resource = createResource(search);
         setData(resource);
-        setMessage(''); // Clear the message when data is successfully fetched
+        setMessage('');
       } catch (error) {
         setMessage('Failed to fetch data');
         console.error("Fetch error: ", error);
@@ -27,15 +28,22 @@ export default function App() {
     setSearch(term);
   };
 
+  const renderGallery = () => {
+    if (data) {
+      return (
+        <Suspense fallback={<h1>Loading...</h1>} >
+          <Gallery data={data} />
+        </Suspense >
+      )
+    }
+  }
+
+
   return (
     <div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <SearchBar handleSearch={handleSearch} />
-      {message && <div>{message}</div>}
-      {data && (
-        <Suspense fallback={<h1>Loading...</h1>}>
-          <Gallery data={data} />
-        </Suspense>
-      )}
+      {message}
+      {renderGallery()}
     </div>
   );
 }
