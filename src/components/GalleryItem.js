@@ -6,14 +6,14 @@ function GalleryItem(props) {
 
   const simpleStyle = {
     'width': '50vw',
-    'min-height': '20vh',
+    'minheight': '20vh',
     'border': '1px solid black',
     'margin': '2px'
   }
 
   const detailStyle = {
     'width': '80vw',
-    'min-height': '20vh',
+    'minheight': '20vh',
     'border': '1px solid black',
     'margin': '2px',
     'backgroundImage': `url(${props.item.artworkUrl100})`,
