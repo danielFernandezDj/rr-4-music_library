@@ -1,17 +1,20 @@
-import GalleryItem from './GalleryItem'
+import GalleryItem from './GalleryItem';
 
-export default function Gallery(props) {
-    const data = props.data.result.read()
+const Gallery = (props) => {
+    try {
+        // Access the read method from the passed data
+        const data = props.data.result.read();
 
-    const display = data.map((item, index) => {
-        return (
+        // Map the data to GalleryItem components
+        const display = data.map((item, index) => (
             <GalleryItem item={item} key={index} />
-        )
-    })
+        ));
 
-    return (
-        <div>
-            {display}
-        </div>
-    )
-}
+        return <div>{display}</div>;
+    } catch (error) {
+        console.error("Error while reading data:", error);
+        return <div>Error loading gallery data.</div>;
+    }
+};
+
+export default Gallery;
