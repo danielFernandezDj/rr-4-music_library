@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react'
-import Gallery from './Gallery'
-import SearchBar from './components/SearchBar'
+import { useEffect, useState, Fragment } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Gallery from './components/Gallery'
+import SearchBar from './components/components/SearchBar'
+import AlbumView from './components/AlbumView'
+import ArtistView from './components/ArtistView'
 
 function App() {
   const [search, setSearch] = useState('')
   const [message, setMessage] = useState('Search for Music!')
   const [data, setData] = useState([])
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,9 +43,19 @@ function App() {
 
   return (
     <div style={{ 'display': 'flex', 'flexFlow': 'column', 'justifyContent': 'center', 'alignItems': 'center' }}>
-      <SearchBar handleSearch={handleSearch} />
       {message}
-      <Gallery data={data} />
+      <Router>
+        <Routes>
+          <Route path='/' element={
+            <Fragment>
+              <SearchBar handleSearch={handleSearch} />
+              <Gallery data={data} />
+            </Fragment>
+          } />
+          <Route path="/album/:id" element={<AlbumView />} />
+          <Route path="/artist/:id" element={<ArtistView />} />
+        </Routes>
+      </Router>
     </div>
   )
 }
